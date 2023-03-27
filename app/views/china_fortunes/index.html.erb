@@ -1,0 +1,50 @@
+<h3>china</h3>
+<p>总数: <%= @total_count %></p>
+<%= paginate @china_fortunes %>
+
+<table class='table table-striped table-hover table-bordered'>
+  <tr>
+    <th>id:</th>
+    <th>Year:</th>
+    <th>Company:</th>
+    <th>Revenue</th>
+    <th>Profit:</th>
+    <th>Asset:</th>
+    <th>Equity:</th>
+    <th>CEO:</th>
+    <th>Industry:</th>
+    <th>Employee:</th>
+    <th>人均利润:</th>
+    <th>创建时间:</th>
+    <th>操作:</th>
+  </tr>
+  <% @china_fortunes.each do |china_fortune| %>
+    <tr>
+      <td><%= china_fortune.id %> </td>
+      <td><%= china_fortune.year %></td>
+      <td><%= china_fortune.company %></td>
+      <td><%= china_fortune.revenue %></td>
+      <td><%= china_fortune.profit %></td>
+      <td><%= china_fortune.asset %></td>
+      <td><%= china_fortune.equity %></td>
+      <td><%= china_fortune.industry %></td>
+      <td><%= china_fortune.employee %></td>
+      <td><%= china_fortune.per_capita_profit %></td>
+      <td><%= china_fortune.created_at.to_s(:db) %></td>
+      <% if session[:current_user] == "admin" %>
+        <%= link_to raw("编辑&gt;&gt;"), (edit_china_fortune_path(:id => china_fortune.id) if session[:current_user] == "admin"), class: 'detail1' %>
+        <%= link_to "删除",china_fortune,:method => :delete if session[:current_user] == "admin"%>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
+
+  <% @per_15.each do |per| %>
+
+
+  <% end %>
+
+
+<%= paginate @china_fortunes %>
+<br/>
+<%= link_to '返回', china_fortunes_path %>

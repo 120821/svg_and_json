@@ -1,0 +1,44 @@
+<h3>区域</h3>
+<p>区域总数: <%= @total_count %></p>
+<%= paginate @regions %>
+<%= link_to "新建", new_region_path if session[:current_user] == "admin" %><br/>
+<%= form_tag '', method: :get do %>
+  <label class="control-label">
+    name
+    <i data-toggle="popover" data-togger="hover" data-container='body' data-html='true' title='说明：根据标题内关键词模糊查询' data-content='输入xxxxx' class='fa fa-question-circle' > </i>
+    <%= text_field_tag :region_name, params[:region_title] %>
+  </label>
+  <label class="control-label">
+    type_id
+    <i data-toggle="popover" data-togger="hover" data-container='body' data-html='true' title='说明：根据文章内关键词模糊查询' data-content='输入xxxxx' class='fa fa-question-circle' > </i>
+    <%= text_field_tag :region_tyep_id, params[:region_tyep_id] %>
+  </label>
+  <%= submit_tag raw("&#xf002; 查询"), class: "form_submit", class: 'btn btn-secondary btn-sm fa-input' %>
+<% end %>
+
+<table class='table table-striped table-hover table-bordered'>
+  <tr>
+    <th>id:</th>
+    <th>区域id:</th>
+    <th>名称:</th>
+    <th>类型id:</th>
+    <th>创建时间:</th>
+    <th>操作:</th>
+  </tr>
+  <% @regions.each do |region| %>
+    <tr>
+      <td><%= region.id %> </td>
+      <td><%= region.region_id %></td>
+      <td><%= region.name %></td>
+      <td><%= region.type_id%></td>
+      <td><%= region.created_at.to_s(:db) %></td>
+      <% if session[:current_user] == "admin" %>
+        <%= link_to raw("编辑&gt;&gt;"), (edit_region_path(:id => region.id) if session[:current_user] == "admin"), class: 'detail1' %>
+        <%= link_to "删除",region,:method => :delete if session[:current_user] == "admin"%>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
+<%= paginate @regions %>
+<br/>
+<%= link_to '返回', regions_path %>

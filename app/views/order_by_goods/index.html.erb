@@ -1,0 +1,24 @@
+<h3>订单</h3>
+<p>总数: <%= @total_count %></p>
+<%= paginate @order_by_goods %>
+<% @order_by_goods.each do |order_by_good| %>
+  <p>
+    id:<%= order_by_good.id %>
+    订单id:<%= order_by_good.order_id%>
+    用户id:<%= order_by_good.user_name_id %>
+    国家:<%= order_by_good.country %>
+    省份:<%= order_by_good.province %>
+    地区:<%= order_by_good.district %>
+    金额:<%= order_by_good.sum %>
+    <%= order_by_good.created_at.to_s(:db) %>
+  </p>
+    <% if session[:current_user] == "admin" %>
+      <%= link_to raw("编辑&gt;&gt;"), (edit_order_by_good_path(:id => order_by_good.id) if session[:current_user] == "admin"), class: 'detail1' %>
+      <%= link_to "删除",order_by_good,:method => :delete if session[:current_user] == "admin"%>
+    <% end %>
+  </div>
+<% end %>
+
+<%= paginate @order_by_goods %>
+<br/>
+<%= link_to '返回', order_by_goods_path %>

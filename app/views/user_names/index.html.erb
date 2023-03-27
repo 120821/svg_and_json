@@ -1,0 +1,35 @@
+<h3>姓名 性别</h3>
+<p>人数总数: <%= @total_count %></p>
+<%= paginate @user_names %>
+<%= link_to "新建", new_user_name_path if session[:current_user] == "admin" %><br/>
+<%= form_tag '', method: :get do %>
+  <label class="control-label">
+    姓名
+    <i data-toggle="popover" data-togger="hover" data-container='body' data-html='true' title='说明：根据标题内关键词模糊查询' data-content='输入xxxxx' class='fa fa-question-circle' > </i>
+    <%= text_field_tag :user_name_name, params[:user_name_title] %>
+  </label>
+  <label class="control-label">
+    性别
+    <i data-toggle="popover" data-togger="hover" data-container='body' data-html='true' title='说明：根据文章内关键词模糊查询' data-content='输入xxxxx' class='fa fa-question-circle' > </i>
+    <%= text_field_tag :user_name_sex, params[:user_name_sex] %>
+  </label>
+  <%= submit_tag raw("&#xf002; 查询"), class: "form_submit", class: 'btn btn-secondary btn-sm fa-input' %>
+<% end %>
+
+<% @user_names.each do |user_name| %>
+  <p>
+    id:<%= user_name.id %>
+    用户id:<%= user_name.user_name_id %>
+    姓名:<%= user_name.name %>
+    性别:<%= user_name.sex %>
+    <%= user_name.created_at.to_s(:db) %>
+  </p>
+  <% if session[:current_user] == "admin" %>
+    <%= link_to raw("编辑&gt;&gt;"), (edit_user_name_path(:id => user_name.id) if session[:current_user] == "admin"), class: 'detail1' %>
+    <%= link_to "删除",user_name,:method => :delete if session[:current_user] == "admin"%>
+  <% end %>
+<% end %>
+
+<%= paginate @user_names %>
+<br/>
+<%= link_to '返回', user_names_path %>
